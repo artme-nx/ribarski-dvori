@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="hr" data-lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Konoba Ribarski Dvori — Prvić Šepurine, Dalmacija.">
+  <title>Ribarski Dvori · Prvić Šepurine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+
+/* ─── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  cursor: none !important;
+}
+@media (hover: none) {
+  *, *::before, *::after { cursor: auto !important; }
+}
+
+:root {
+  --bg:      #0D1117;
+  --text:    #F0E6D3;
+  --gold:    #C9A96E;
+  --wood:    #8B4513;
+  --gold-faint: rgba(201,169,110,0.08);
+  --gold-dim:   rgba(201,169,110,0.18);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ─── LANGUAGE ───────────────────────────────────────────────── */
+html[data-lang="en"] [data-hr] { display: none !important; }
+html[data-lang="hr"] [data-en] { display: none !important; }
+html[data-lang="de"] [data-hr] { display: none !important; }
+/* DE falls back to EN content until data-de translations are added */
+
+/* ─── CUSTOM CURSOR ─────────────────────────────────────────── */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.25s ease, height 0.25s ease,
+              background 0.25s ease, opacity 0.3s ease;
+  will-change: left, top;
+}
+.cursor.on  { opacity: 1; }
+.cursor.big {
+  width: 36px; height: 36px;
+  background: transparent;
+  border: 1px solid var(--gold);
+}
+@media (hover: none) { .cursor { display: none !important; } }
+
+/* ─── NAV RIGHT (links + separator + lang) ──────────────────── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.nav-vsep {
+  width: 1px;
+  height: 12px;
+  background: rgba(240,230,211,0.12);
+  flex-shrink: 0;
+}
+
+/* ─── LANG SWITCHER ─────────────────────────────────────────── */
+.lang {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.lang-item {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(240,230,211,0.5);
+  transition: color 0.3s;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.lang-item.on { color: var(--gold); }
+.lang-sep {
+  font-size: 0.6rem;
+  color: rgba(240,230,211,0.2);
+  user-select: none;
+}
+
+/* ─── NAVIGATION ─────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 2.2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: padding 0.45s ease, background 0.45s ease, backdrop-filter 0.45s ease;
+}
+.nav.scrolled {
+  background: rgba(13,17,23,0.78);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  padding: 1.3rem 3rem;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.nav.scrolled .nav-logo { opacity: 1; pointer-events: auto; }
+
+.nav-links {
+  display: flex;
+  gap: 2.8rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,230,211,0.5);
+  position: relative;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0; right: 100%;
+  height: 1px;
+  background: var(--gold);
+  transition: right 0.35s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { right: 0; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 22px; height: 1px;
+  background: var(--text);
+  transition: 0.3s;
+}
+
+/* ─── MOBILE MENU ───────────────────────────────────────────── */
+.mob {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #080B0F;
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.8rem;
+}
+.mob.open { display: flex; }
+.mob a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: color 0.3s;
+}
+.mob a:hover { color: var(--gold); }
+.mob-x {
+  position: absolute;
+  top: 2rem; right: 2rem;
+  background: none; border: none;
+  color: rgba(240,230,211,0.3);
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0.4rem;
+  transition: color 0.25s;
+}
+.mob-x:hover { color: var(--text); }
+
+/* ─── HERO ───────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('00006RIBARSKI%20DVORI.jpeg');
+  background-size: cover;
+  background-position: center 58%;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13,17,23,0.60);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+/* Line-by-line reveal */
+.line-wrap { overflow: hidden; }
+.line-inner {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(56px, 10vw, 120px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.0;
+  opacity: 0;
+  transform: translateY(100%);
+  animation: lineUp 1s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.line-inner:nth-child(1) { animation-delay: 0.35s; }
+.line-inner:nth-child(2) { animation-delay: 0.65s; }
+
+@keyframes lineUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-bar {
+  width: 60px; height: 1px;
+  background: var(--gold);
+  margin: 2rem auto;
+  opacity: 0;
+  animation: fadeIn 0.7s ease 1.1s forwards;
+}
+
+.hero-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 18px;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  animation: fadeIn 0.7s ease 1.45s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.scroll-ind {
+  position: absolute;
+  bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+  animation: fadeIn 0.7s ease 2s forwards;
+}
+.scroll-ind span {
+  font-size: 0.55rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(240,230,211,0.3);
+}
+.chevron {
+  width: 14px; height: 14px;
+  border-right: 1px solid rgba(201,169,110,0.45);
+  border-bottom: 1px solid rgba(201,169,110,0.45);
+  transform: rotate(45deg);
+  animation: chBounce 1.9s ease infinite;
+}
+@keyframes chBounce {
+  0%,100% { transform: rotate(45deg) translateY(0);   opacity: 0.45; }
+  50%      { transform: rotate(45deg) translateY(6px); opacity: 0.9;  }
+}
+
+/* ─── SHARED UTILITIES ─────────────────────────────────────── */
+.gold-line {
+  width: 60px; height: 1px;
+  background: var(--gold);
+  margin: 1.6rem 0;
+}
+.gold-line.c { margin: 1.6rem auto; }
+
+.s-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.s-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+/* Scroll reveal */
+.r {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.r.in { opacity: 1; transform: translateY(0); }
+.r.d1 { transition-delay: 0.12s; }
+.r.d2 { transition-delay: 0.24s; }
+.r.d3 { transition-delay: 0.36s; }
+.r.d4 { transition-delay: 0.48s; }
+
+/* ─── UVOD ───────────────────────────────────────────────────── */
+#uvod {
+  padding: 9rem 3rem;
+}
+
+.uvod-quote {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 6rem;
+}
+.uvod-quote .qt {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.uvod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 0;
+}
+
+.uvod-left {
+  padding: 3rem 5rem 3rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.uvod-left p {
+  font-size: 0.98rem;
+  line-height: 1.95;
+  color: rgba(240,230,211,0.62);
+  margin-bottom: 1.2rem;
+}
+
+.uvod-right {
+  overflow: hidden;
+}
+.uvod-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 500px;
+}
+
+/* ─── MOL / DOLAZAK ─────────────────────────────────────────── */
+#mol {
+  position: relative;
+  height: 85vh;
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mol-bg {
+  position: absolute;
+  top: -20%; left: 0; right: 0; bottom: -20%;
+  background-image: url('00007RIBARSKI%20DVORI.jpeg');
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+.mol-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13,17,23,0.65);
+}
+
+.mol-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+}
+
+.mol-anchor {
+  margin: 0 auto 1.8rem;
+  width: 30px; height: 30px;
+  opacity: 0.7;
+}
+.mol-anchor svg {
+  width: 30px; height: 30px;
+}
+
+.mol-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 6.5vw, 5rem);
+  letter-spacing: 0.07em;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+}
+
+.mol-gps {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+}
+
+/* ─── HRANA ──────────────────────────────────────────────────── */
+#hrana {
+  padding: 8rem 3rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.hrana-hd {
+  text-align: center;
+  margin-bottom: 4.5rem;
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  border: 1px solid rgba(201,169,110,0.1);
+  background: rgba(201,169,110,0.1);
+}
+
+.food-card {
+  background: var(--bg);
+  padding: 2.8rem 2.5rem;
+  border-top: 2px solid var(--gold);
+  transition: background 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+.food-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold-faint);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.food-card:hover::after { opacity: 1; }
+
+.food-num {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(201,169,110,0.16);
+  margin-bottom: 1.8rem;
+  transition: color 0.35s ease;
+}
+.food-card:hover .food-num { color: rgba(201,169,110,0.35); }
+
+.food-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+}
+
+.food-body {
+  font-size: 0.86rem;
+  line-height: 1.88;
+  color: rgba(240,230,211,0.5);
+}
+
+/* ─── GALERIJA ───────────────────────────────────────────────── */
+#galerija {
+  padding-top: 5rem;
+}
+
+.gal-hd {
+  text-align: center;
+  padding: 0 1.5rem 3rem;
+}
+
+.gal-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+}
+
+.g {
+  position: relative;
+  overflow: hidden;
+}
+.g img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.g:hover img { transform: scale(1.06); }
+
+.g-ov {
+  position: absolute;
+  inset: 0;
+  background: rgba(201,169,110,0);
+  transition: background 0.45s ease;
+  pointer-events: none;
+}
+.g:hover .g-ov { background: rgba(201,169,110,0.14); }
+
+/* Grid layout:
+   [A - wide][B - tall/2 rows]
+   [C][D][B continued] */
+.g-a { aspect-ratio: 16/9; }
+.g-b { grid-row: 1 / 3; aspect-ratio: unset; min-height: 400px; }
+.g-c { aspect-ratio: 4/3; }
+.g-d { aspect-ratio: 4/3; }
+
+/* ─── KONTAKT ─────────────────────────────────────────────────── */
+#kontakt {
+  padding: 9rem 2rem;
+  text-align: center;
+  background: #080B0F;
+}
+
+.kon-tag { margin-bottom: 0; }
+.kon-phone {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  transition: opacity 0.3s;
+  margin: 0.5rem 0 2rem;
+}
+.kon-phone:hover { opacity: 0.65; }
+
+.kon-hours {
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,230,211,0.38);
+  line-height: 2.4;
+  margin-bottom: 2.5rem;
+}
+
+.kon-map-link {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(201,169,110,0.28);
+  padding-bottom: 3px;
+  transition: border-color 0.3s;
+}
+.kon-map-link:hover { border-color: var(--gold); }
+
+.kon-address {
+  margin-top: 2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: rgba(240,230,211,0.2);
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────── */
+footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(201,169,110,0.07);
+}
+footer p {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,230,211,0.16);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .nav-right { display: none; }
+  .hamburger { display: flex; }
+  .nav { padding: 1.8rem 1.8rem; }
+  .nav.scrolled { padding: 1.2rem 1.8rem; }
+
+  #uvod { padding: 6rem 1.5rem; }
+  .uvod-grid { grid-template-columns: 1fr; }
+  .uvod-left { padding: 0 0 3rem; order: 2; }
+  .uvod-right { order: 1; }
+  .uvod-right img { min-height: 360px; }
+
+  .food-grid { grid-template-columns: 1fr; gap: 1px; }
+
+  .gal-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .g-a { grid-column: 1 / 3; aspect-ratio: 3/2; }
+  .g-b { grid-row: auto; aspect-ratio: 4/3; min-height: unset; }
+  .g-c, .g-d { aspect-ratio: 4/3; }
+
+  #hrana { padding: 5rem 1.5rem; }
+}
+
+@media (max-width: 600px) {
+  .lang { top: 1.3rem; right: 1.3rem; }
+
+  .uvod-quote .qt { font-size: 1.5rem; }
+
+  .gal-grid { grid-template-columns: 1fr; }
+  .g-a, .g-b, .g-c, .g-d {
+    grid-column: auto; grid-row: auto;
+    aspect-ratio: 4/3; min-height: unset;
+  }
+
+  #kontakt { padding: 6rem 1.5rem; }
+  .mol-title { font-size: 2rem; }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cur"></div>
+
+<!-- NAV (lang switcher lives inside, right of Kontakt) -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">Ribarski Dvori</div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#uvod"><span data-hr>Priča</span><span data-en>Story</span></a></li>
+      <li><a href="#mol"><span data-hr>Dolazak</span><span data-en>Arrival</span></a></li>
+      <li><a href="#hrana"><span data-hr>Hrana</span><span data-en>Food</span></a></li>
+      <li><a href="#galerija"><span data-hr>Galerija</span><span data-en>Gallery</span></a></li>
+      <li><a href="#kontakt"><span data-hr>Kontakt</span><span data-en>Contact</span></a></li>
+    </ul>
+    <div class="nav-vsep"></div>
+    <div class="lang" id="langSw">
+      <button class="lang-item on" data-l="hr" onclick="setLang('hr')">HR</button>
+      <span class="lang-sep">·</span>
+      <button class="lang-item" data-l="en" onclick="setLang('en')">EN</button>
+      <span class="lang-sep">·</span>
+      <button class="lang-item" data-l="de" onclick="setLang('de')">DE</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <button class="mob-x" onclick="toggleMob()">&#10005;</button>
+  <a href="#uvod"     onclick="toggleMob()"><span data-hr>Priča</span><span data-en>Story</span></a>
+  <a href="#mol"      onclick="toggleMob()"><span data-hr>Dolazak</span><span data-en>Arrival</span></a>
+  <a href="#hrana"    onclick="toggleMob()"><span data-hr>Hrana</span><span data-en>Food</span></a>
+  <a href="#galerija" onclick="toggleMob()"><span data-hr>Galerija</span><span data-en>Gallery</span></a>
+  <a href="#kontakt"  onclick="toggleMob()"><span data-hr>Kontakt</span><span data-en>Contact</span></a>
+  <div class="lang" style="margin-top:1rem;">
+    <button class="lang-item on" data-l="hr" onclick="setLang('hr');toggleMob()">HR</button>
+    <span class="lang-sep">·</span>
+    <button class="lang-item" data-l="en" onclick="setLang('en');toggleMob()">EN</button>
+    <span class="lang-sep">·</span>
+    <button class="lang-item" data-l="de" onclick="setLang('de');toggleMob()">DE</button>
+  </div>
+</div>
+
+<!-- ════════════ HERO ════════════ -->
+<div class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="line-wrap">
+      <span class="line-inner">Ribarski</span>
+    </div>
+    <div class="line-wrap">
+      <span class="line-inner">Dvori</span>
+    </div>
+    <div class="hero-bar"></div>
+    <p class="hero-sub">Prvić Šepurine &nbsp;·&nbsp; Od 1991.</p>
+  </div>
+
+  <div class="scroll-ind">
+    <span data-hr>Nastavi</span>
+    <span data-en>Scroll</span>
+    <div class="chevron"></div>
+  </div>
+</div>
+
+<!-- ════════════ UVOD ════════════ -->
+<section id="uvod">
+
+  <div class="uvod-quote r">
+    <p class="qt" data-hr>Dođi brodom. Sidri u uvali.<br>Jedi kao da nema sutra.</p>
+    <p class="qt" data-en>Come by boat. Anchor in the bay.<br>Eat like there's no tomorrow.</p>
+    <div class="gold-line c"></div>
+  </div>
+
+  <div class="uvod-grid">
+    <div class="uvod-left r d1">
+      <p class="s-tag" data-hr>Iskustvo</p>
+      <p class="s-tag" data-en>Experience</p>
+      <div class="gold-line"></div>
+      <p data-hr>Neke se stvari ne planiraju. Vjetar te nosi u pravom smjeru, sidro pada na pravo mjesto — i odjednom, tu si. Za stolom koji gleda na more koje si upravo prošao.</p>
+      <p data-en>Some things can't be planned. The wind carries you right, the anchor finds its place — and suddenly, here you are. At a table overlooking the very sea you just sailed through.</p>
+      <p data-hr>Ribarski dvori su tu od 1991. Iste ruke, ista vatra, isti okus.</p>
+      <p data-en>Ribarski Dvori have been here since 1991. Same hands, same fire, same taste.</p>
+    </div>
+    <div class="uvod-right r d2">
+      <img src="00010RIBARSKI%20DVORI.jpeg" alt="">
+    </div>
+  </div>
+
+</section>
+
+<!-- ════════════ MOL / DOLAZAK ════════════ -->
+<section id="mol">
+  <div class="mol-bg" id="molBg"></div>
+  <div class="mol-overlay"></div>
+  <div class="mol-content r">
+
+    <div class="mol-anchor">
+      <svg viewBox="0 0 32 32" fill="none"
+           stroke="#C9A96E" stroke-width="1.4"
+           stroke-linecap="round" stroke-linejoin="round"
+           xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="7" r="3"/>
+        <line x1="16" y1="10" x2="16" y2="26"/>
+        <line x1="8" y1="13" x2="24" y2="13"/>
+        <path d="M8 26 C8 21 13 19 16 19"/>
+        <path d="M24 26 C24 21 19 19 16 19"/>
+      </svg>
+    </div>
+
+    <div class="mol-title">
+      <span data-hr>Vezaj brod.<br>Mi čekamo.</span>
+      <span data-en>Tie your boat.<br>We'll be waiting.</span>
+    </div>
+
+    <div class="mol-gps">43°44'20"N &nbsp;&nbsp;·&nbsp;&nbsp; 15°47'08"E</div>
+
+  </div>
+</section>
+
+<!-- ════════════ HRANA ════════════ -->
+<section id="hrana">
+
+  <div class="hrana-hd r">
+    <p class="s-tag" data-hr>Kuhinja</p>
+    <p class="s-tag" data-en>Kitchen</p>
+    <div class="gold-line c"></div>
+    <h2 class="s-heading" data-hr>Dnevni Ulov</h2>
+    <h2 class="s-heading" data-en>Daily Catch</h2>
+  </div>
+
+  <div class="food-grid">
+
+    <div class="food-card r">
+      <span class="food-num">01</span>
+      <div class="food-title" data-hr>Riba i plodovi mora</div>
+      <div class="food-title" data-en>Fish &amp; Seafood</div>
+      <p class="food-body" data-hr>Jutarnji ulov direktno na stol. Gradele, buzara, na lešo — svježe, jednostavno, bez pretenzija. Svaki dan drukčije, kao i more.</p>
+      <p class="food-body" data-en>The morning catch straight to the table. Grilled, in buzara, poached — fresh, simple, no pretensions. Different every day, just like the sea.</p>
+    </div>
+
+    <div class="food-card r d1">
+      <span class="food-num">02</span>
+      <div class="food-title">Peka</div>
+      <p class="food-body" data-hr>Hobotnica, teletina, pivac ili janjetina — ispod peke, polako, dok ne bude savršeno. Naručiti dan ranije.</p>
+      <p class="food-body" data-en>Octopus, veal, chicken, or lamb — under the bell, slowly, until perfect. Order one day in advance.</p>
+    </div>
+
+    <div class="food-card r d2">
+      <span class="food-num">03</span>
+      <div class="food-title" data-hr>Vino i rakija</div>
+      <div class="food-title" data-en>Wine &amp; Spirits</div>
+      <p class="food-body" data-hr>Domaća dalmatinska kapljica, bez etiketa i bez viška. Točno onoliko koliko treba uz ribu i more.</p>
+      <p class="food-body" data-en>Homegrown Dalmatian wine, no labels, no excess. Exactly what's needed with fish and salt air.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ════════════ GALERIJA ════════════ -->
+<section id="galerija">
+
+  <div class="gal-hd r">
+    <p class="s-tag" data-hr>Galerija</p>
+    <p class="s-tag" data-en>Gallery</p>
+    <div class="gold-line c"></div>
+  </div>
+
+  <div class="gal-grid">
+
+    <div class="g g-a">
+      <img src="00009RIBARSKI%20DVORI.jpeg" alt="" loading="lazy">
+      <div class="g-ov"></div>
+    </div>
+
+    <div class="g g-b">
+      <img src="00012RIBARSKI%20DVORI.jpeg" alt="" loading="lazy">
+      <div class="g-ov"></div>
+    </div>
+
+    <div class="g g-c">
+      <img src="00011RIBARSKI%20DVORI.jpeg" alt="" loading="lazy">
+      <div class="g-ov"></div>
+    </div>
+
+    <div class="g g-d">
+      <img src="00014RIBARSKI%20DVORI.jpeg" alt="" loading="lazy">
+      <div class="g-ov"></div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ════════════ KONTAKT ════════════ -->
+<section id="kontakt">
+  <div class="r">
+
+    <p class="s-tag kon-tag">Prvić Šepurine</p>
+    <div class="gold-line c"></div>
+
+    <a href="tel:+38522205014" class="kon-phone">+385 22 205 014</a>
+
+    <div class="kon-hours">
+      <span data-hr>
+        13:00 — 23:00<br>
+        Srijedom zatvoreno<br>
+        Svibanj — Listopad
+      </span>
+      <span data-en>
+        13:00 — 23:00<br>
+        Closed Wednesdays<br>
+        May — October
+      </span>
+    </div>
+
+    <a href="https://www.google.com/maps?q=43.7389,15.7856"
+       target="_blank" rel="noopener"
+       class="kon-map-link">
+      <span data-hr>Otvori Google Maps</span>
+      <span data-en>Open Google Maps</span>
+    </a>
+
+    <div class="kon-address" data-hr>
+      Južna obala, ul. IX br. 91 &nbsp;·&nbsp; Prvić Šepurine &nbsp;·&nbsp; Hrvatska
+    </div>
+    <div class="kon-address" data-en>
+      Južna obala, ul. IX no. 91 &nbsp;·&nbsp; Prvić Šepurine &nbsp;·&nbsp; Croatia
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Konoba Ribarski Dvori &nbsp;·&nbsp; Prvić Šepurine &nbsp;·&nbsp; Dalmacija</p>
+</footer>
+
+<script>
+/* ── CURSOR ───────────────────────────────────────────────── */
+const cur = document.getElementById('cur');
+let mx = -100, my = -100, cx = -100, cy = -100;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.classList.add('on');
+});
+document.addEventListener('mouseleave', () => cur.classList.remove('on'));
+
+(function animCur() {
+  cx += (mx - cx) * 0.14;
+  cy += (my - cy) * 0.14;
+  cur.style.left = cx + 'px';
+  cur.style.top  = cy + 'px';
+  requestAnimationFrame(animCur);
+})();
+
+document.querySelectorAll('a, button, .g, .food-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+/* ── LANGUAGE ─────────────────────────────────────────────── */
+function setLang(l) {
+  document.documentElement.setAttribute('data-lang', l);
+  document.querySelectorAll('.lang-item').forEach(b =>
+    b.classList.toggle('on', b.getAttribute('data-l') === l)
+  );
+}
+
+/* ── NAV SCROLL ───────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 70);
+}, { passive: true });
+
+/* ── PARALLAX ─────────────────────────────────────────────── */
+const heroBg = document.getElementById('heroBg');
+const molBg  = document.getElementById('molBg');
+const molEl  = document.getElementById('mol');
+
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+
+  /* Hero: slow zoom + drift */
+  if (heroBg && sy < window.innerHeight * 1.2) {
+    heroBg.style.transform = `translateY(${sy * 0.32}px)`;
+  }
+
+  /* Mol: classic parallax */
+  if (molBg) {
+    const rect = molEl.getBoundingClientRect();
+    const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+    molBg.style.transform = `translateY(${center * 0.3}px)`;
+  }
+}, { passive: true });
+
+/* ── MOBILE MENU ──────────────────────────────────────────── */
+function toggleMob() {
+  document.getElementById('mob').classList.toggle('open');
+}
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      ro.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.r').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>
