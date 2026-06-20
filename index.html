@@ -3,8 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Konoba Ribarski Dvori — Prvić Šepurine, Dalmacija.">
-  <title>Ribarski Dvori · Prvić Šepurine</title>
+
+  <!-- ── SEO ── -->
+  <title>Ribarski Dvori | Konoba na otoku Prviću | Prvić Šepurine</title>
+  <meta name="description" content="Konoba Ribarski Dvori na otoku Prviću. Svježa riba, dnevni ulov i peka. Dostupni brodom — privežite na naš molić u uvali Šepurine. Otvoreno svibanj–listopad.">
+  <meta name="keywords" content="konoba Prvić, ribarski dvori, restoran Prvić Šepurine, konoba brodom, jedriličari Šibenik, riba Prvić, peka Dalmacija">
+  <meta name="author" content="Ribarski Dvori">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="content-language" content="hr">
+
+  <!-- ── Open Graph ── -->
+  <meta property="og:title" content="Ribarski Dvori — Konoba na otoku Prviću">
+  <meta property="og:description" content="Dođi brodom. Svježa riba i peka na moru.">
+  <meta property="og:type" content="restaurant">
+  <meta property="og:url" content="https://artme-nx.github.io/ribarski-dvori/">
+  <meta property="og:locale" content="hr_HR">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:site_name" content="Ribarski Dvori">
+
+  <!-- ── Schema.org JSON-LD ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Ribarski Dvori",
+    "description": "Konoba Ribarski Dvori na otoku Prviću. Svježa riba, dnevni ulov i peka. Dostupni brodom.",
+    "url": "https://artme-nx.github.io/ribarski-dvori/",
+    "telephone": "+38522205014",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Južna obala IX 91",
+      "addressLocality": "Prvić Šepurine",
+      "addressCountry": "HR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 43.7389,
+      "longitude": 15.7856
+    },
+    "servesCuisine": ["Dalmatian", "Seafood"],
+    "priceRange": "€€",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "13:00",
+        "closes": "23:00"
+      }
+    ],
+    "openingHours": "Mo Tu Th Fr Sa Su 13:00-23:00"
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -231,6 +281,7 @@ html[data-lang="de"] [data-hr] { display: none !important; }
   background-size: cover;
   background-position: center 58%;
   transform-origin: center;
+  transform: scale(1.28);
   will-change: transform;
 }
 
@@ -687,6 +738,33 @@ footer p {
   .mol-title { font-size: 2rem; }
 }
 
+/* ─── SPLITTEXT — reveal slovo po slovo / riječ po riječ ─────── */
+.su {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.22,1,0.36,1);
+  will-change: opacity, transform;
+}
+.split-c.in .su, .split-w.in .su { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .su { opacity: 1 !important; transform: none !important; transition: none; }
+}
+
+/* ─── GALERIJA — clip-path reveal ───────────────────────────── */
+.gal-grid .g {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.06);
+  transition: clip-path 1s cubic-bezier(0.66,0,0.18,1), transform 1.25s ease;
+}
+.gal-grid.in .g { clip-path: inset(0 0 0 0); transform: scale(1); }
+.gal-grid .g:nth-child(2) { transition-delay: 0.1s; }
+.gal-grid .g:nth-child(3) { transition-delay: 0.2s; }
+.gal-grid .g:nth-child(4) { transition-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .gal-grid .g { clip-path: none !important; transform: none !important; transition: none; }
+}
+
   </style>
 </head>
 <body>
@@ -978,9 +1056,10 @@ const molEl  = document.getElementById('mol');
 window.addEventListener('scroll', () => {
   const sy = window.scrollY;
 
-  /* Hero: slow zoom + drift */
-  if (heroBg && sy < window.innerHeight * 1.2) {
-    heroBg.style.transform = `translateY(${sy * 0.32}px)`;
+  /* Hero: zoom-out dok skrolaš */
+  if (heroBg) {
+    const p = Math.min(Math.max(sy / window.innerHeight, 0), 1);
+    heroBg.style.transform = `scale(${(1.28 - 0.28 * p).toFixed(4)})`;
   }
 
   /* Mol: classic parallax */
@@ -1007,6 +1086,45 @@ const ro = new IntersectionObserver(entries => {
 }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
 
 document.querySelectorAll('.r').forEach(el => ro.observe(el));
+
+/* ── SPLITTEXT: razlomi tekst u znakove/riječi i sklopi kroz reveal ── */
+function splitNode(node, mode, ctr) {
+  [...node.childNodes].forEach(child => {
+    if (child.nodeType === 3) {                       /* tekstualni čvor */
+      const parts = mode === 'char' ? [...child.textContent] : child.textContent.split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      parts.forEach(p => {
+        if (p === '') return;
+        if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+        const s = document.createElement('span');
+        s.className = 'su';
+        s.textContent = p;
+        s.style.transitionDelay = (ctr.i * (mode === 'char' ? 0.03 : 0.06)) + 's';
+        ctr.i++;
+        frag.appendChild(s);
+      });
+      node.replaceChild(frag, child);
+    } else if (child.nodeType === 1 && child.tagName !== 'BR') {
+      splitNode(child, mode, ctr);                    /* zadrži <br>, <span> itd. */
+    }
+  });
+}
+function doSplit(el, mode) {
+  const langs = el.querySelectorAll('[data-hr],[data-en],[data-de]');
+  if (langs.length) { langs.forEach(l => splitNode(l, mode, { i: 0 })); }  /* svaki jezik kreće od 0 */
+  else { splitNode(el, mode, { i: 0 }); }
+  el.classList.add(mode === 'char' ? 'split-c' : 'split-w');
+}
+document.querySelectorAll('.s-heading, .mol-title').forEach(el => doSplit(el, 'char'));
+document.querySelectorAll('.uvod-quote .qt, .s-tag').forEach(el => doSplit(el, 'word'));
+
+/* ── observer za SplitText i clip-path galeriju (okidač na neclipanom .gal-grid) ── */
+const ro2 = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); ro2.unobserve(e.target); }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.split-c, .split-w, .gal-grid').forEach(el => ro2.observe(el));
 </script>
 </body>
 </html>
