@@ -737,7 +737,14 @@ footer p {
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────── */
-@media (max-width: 960px) {
+/* Uži laptopi / poluraširen prozor: stisni nav da stane u desktop izgledu */
+@media (max-width: 940px) and (min-width: 821px) {
+  .nav { padding: 2rem 2rem; }
+  .nav-links { gap: 1.9rem; }
+  .nav-right { gap: 1.4rem; }
+}
+
+@media (max-width: 820px) {
   .nav-right { display: none; }
   .hamburger { display: flex; }
   .nav { padding: 1.8rem 1.8rem; }
